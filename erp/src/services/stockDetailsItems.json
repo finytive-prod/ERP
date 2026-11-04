@@ -1,0 +1,427 @@
+[
+  {
+    "slNo": 1,
+    "name": "1.5 Sq.mm wire-Red 300mtrs",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 2,
+    "name": "1.5 Sq.mm wire-yellow 300mtrs",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 3,
+    "name": "1.5 Sq.mm wire-blue 300mtrs",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 4,
+    "name": "1.5 Sq.mm wire-green 300mtrs",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 5,
+    "name": "1.5 Sq.mm wire-black 300mtrs",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 6,
+    "name": "2.5 Sq.mm wire-Red",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 7,
+    "name": "2.5 Sq.mm wire-yellow",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 8,
+    "name": "2.5 Sq.mm wire-blue",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 9,
+    "name": "2.5 Sq.mm wire-green",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 10,
+    "name": "2.5 Sq.mm wire-black",
+    "unit": "Coil"
+  },
+  {
+    "slNo": 11,
+    "name": "3CX2.5 Sq.mm cu flexi cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 12,
+    "name": "3CX4 Sq.mm cu flexi cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 13,
+    "name": "2x36W Light fitting",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 14,
+    "name": "2x18 W Light fitting",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 15,
+    "name": "100x45 mm Al Trunking",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 16,
+    "name": "300X50 JB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 17,
+    "name": "200X50 JB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 18,
+    "name": "100x50 Cable tray",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 19,
+    "name": "100x40 Cable tray",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 20,
+    "name": "150x50 Cable tray",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 21,
+    "name": "300x50 Cable tray",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 22,
+    "name": "1x18 W Light fitting",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 23,
+    "name": "4 way TPN DB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 24,
+    "name": "8 way TPN DB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 25,
+    "name": "8 way MCCB TPN DB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 26,
+    "name": "6 Way TPN DB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 27,
+    "name": "3M metal box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 28,
+    "name": "2M metal box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 29,
+    "name": "6M metal box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 30,
+    "name": "8M metal box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 31,
+    "name": "20 mm DC gland",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 32,
+    "name": "25 mm DC gland",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 33,
+    "name": "28 mm gland",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 34,
+    "name": "50 mm PVC gland",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 35,
+    "name": "Amonard fan",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 36,
+    "name": "40 mm dia Earth pit",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 37,
+    "name": "250x85 mm cable tray",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 38,
+    "name": "25 Sq.mm Cu cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 39,
+    "name": "6M PVC box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 40,
+    "name": "3M PVC box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 41,
+    "name": "25A A/C box with plug and socket",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 42,
+    "name": "32A 4P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 43,
+    "name": "40A 4P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 44,
+    "name": "63A 4P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 45,
+    "name": "63A 2P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 46,
+    "name": "10A Sp MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 47,
+    "name": "16A SP MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 48,
+    "name": "20A SP MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 49,
+    "name": "25A SP MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 50,
+    "name": "32A 3P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 51,
+    "name": "32A 2P RCBO",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 52,
+    "name": "40A 2P MCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 53,
+    "name": "125A MCCB",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 54,
+    "name": "8SWG Cu wire",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 55,
+    "name": "10 Sq.mm cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 56,
+    "name": "25x3 Earth bridge",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 57,
+    "name": "4Cx4 Sq.mm cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 58,
+    "name": "35 Sq.mm cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 59,
+    "name": "4Cx6Sq.mm cu.Ar cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 60,
+    "name": "48\"fan crompton",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 61,
+    "name": "bombay hook",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 62,
+    "name": "Tube light fitting",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 63,
+    "name": "5A Switch",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 64,
+    "name": "5A socket",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 65,
+    "name": "15A Switch",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 66,
+    "name": "15A socket",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 67,
+    "name": "3M Plate",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 68,
+    "name": "6M Plate",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 69,
+    "name": "6M box crabtree",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 70,
+    "name": "3M box crabtree",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 71,
+    "name": "2M plate",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 72,
+    "name": "8M plate",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 73,
+    "name": "16M Plate",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 74,
+    "name": "Dummy",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 75,
+    "name": "4C 4Sq.mm cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 76,
+    "name": "35Sq.mm Cable",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 77,
+    "name": "6Sq.mm red",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 78,
+    "name": "4P Encloser Box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 79,
+    "name": "Single phase plug & Socket",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 80,
+    "name": "Three Phase plug & Socket",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 81,
+    "name": "3C 4Sq.mm wire",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 82,
+    "name": "4Sq.mm Red",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 83,
+    "name": "6Sq.mm Black",
+    "unit": "Mtrs"
+  },
+  {
+    "slNo": 84,
+    "name": "100x100mm Floor junction box",
+    "unit": "Nos"
+  },
+  {
+    "slNo": 85,
+    "name": "150x150mm Floor junction box",
+    "unit": "Nos"
+  }
+]
