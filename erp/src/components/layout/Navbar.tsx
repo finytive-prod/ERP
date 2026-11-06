@@ -9,7 +9,11 @@ import {
   X,
   ExternalLink,
   Zap,
-  LogOut
+  LogOut,
+  Database,
+  RefreshCw,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ERPService } from '../../services/erpStorage';
@@ -32,6 +36,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Job[]>([]);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [dbHealth, setDbHealth] = useState(ERPService.getDbHealth());
+  const [showDbDropdown, setShowDbDropdown] = useState(false);
+  const [isSyncingDb, setIsSyncingDb] = useState(false);
 
   const loadData = () => {
     setCurrentUser(ERPService.getCurrentUser());
@@ -43,9 +50,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
 
   useEffect(() => {
     loadData();
+    ERPService.checkDbHealth().then(setDbHealth);
+
     const handleStorageUpdate = () => loadData();
+    const handleDbUpdate = (e: any) => {
+      if (e.detail) setDbHealth(e.detail);
+      else ERPService.checkDbHealth().then(setDbHealth);
+    };
+
     window.addEventListener('apex_storage_update', handleStorageUpdate);
-    return () => window.removeEventListener('apex_storage_update', handleStorageUpdate);
+    window.addEventListener('apex_db_status_change', handleDbUpdate);
+
+    const interval = setInterval(() => {
+      ERPService.checkDbHealth().then(setDbHealth);
+    }, 15000);
+
+    return () => {
+      window.removeEventListener('apex_storage_update', handleStorageUpdate);
+      window.removeEventListener('apex_db_status_change', handleDbUpdate);
+      clearInterval(interval);
+    };
   }, []);
 
   const unreadNotifs = notifications.filter((n) => !n.read);
@@ -220,6 +244,180 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
 
       {/* Right Action Icons: Role Switcher, Notifications, Demo Reset */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        {/* PostgreSQL Database Live Status */}
+        <div style={{ position: 'relative' }}>
+          <button
+            type="button"
+            onClick={() => setShowDbDropdown(!showDbDropdown)}
+            title={dbHealth.connected ? 'PostgreSQL Database Connected' : 'PostgreSQL Database Offline'}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '5px 10px',
+              borderRadius: 'var(--radius-md)',
+              border: `1px solid ${dbHealth.connected ? '#bbf7d0' : '#fecaca'}`,
+              backgroundColor: dbHealth.connected ? '#f0fdf4' : '#fef2f2',
+              color: dbHealth.connected ? '#166534' : '#991b1b',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              minHeight: 38,
+              cursor: 'pointer',
+            }}
+          >
+            <Database size={15} color={dbHealth.connected ? '#16a34a' : '#dc2626'} />
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: '50%',
+                  backgroundColor: dbHealth.connected ? '#22c55e' : '#ef4444',
+                  boxShadow: dbHealth.connected ? '0 0 6px rgba(34, 197, 94, 0.6)' : 'none',
+                }}
+              />
+              <span>{dbHealth.connected ? 'PostgreSQL' : 'DB Offline'}</span>
+            </span>
+          </button>
+
+          {showDbDropdown && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 44,
+                right: 0,
+                background: '#ffffff',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--shadow-modal)',
+                border: '1px solid var(--border-light)',
+                width: 300,
+                zIndex: 200,
+                padding: '14px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Database size={16} color={dbHealth.connected ? '#16a34a' : '#dc2626'} />
+                  <span style={{ fontWeight: 800, fontSize: '0.88rem', color: '#0f172a' }}>
+                    PostgreSQL Database
+                  </span>
+                </div>
+                <span
+                  style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: 999,
+                    backgroundColor: dbHealth.connected ? '#dcfce7' : '#fee2e2',
+                    color: dbHealth.connected ? '#15803d' : '#b91c1c',
+                  }}
+                >
+                  {dbHealth.connected ? 'Connected' : 'Disconnected'}
+                </span>
+              </div>
+
+              <div style={{ fontSize: '0.78rem', color: '#475569', marginBottom: 12, lineHeight: 1.5 }}>
+                <div><strong>Database:</strong> {dbHealth.database || 'apex_erp'}</div>
+                <div><strong>Port:</strong> {dbHealth.port || 5432}</div>
+                {dbHealth.error && (
+                  <div style={{ color: '#dc2626', marginTop: 4 }}>
+                    ⚠️ {dbHealth.error}
+                  </div>
+                )}
+              </div>
+
+              {dbHealth.counts && (
+                <div
+                  style={{
+                    backgroundColor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 6,
+                    padding: '8px 10px',
+                    marginBottom: 12,
+                    fontSize: '0.74rem',
+                    color: '#334155',
+                  }}
+                >
+                  <div style={{ fontWeight: 700, marginBottom: 4, color: '#0f172a' }}>Live Table Records:</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 8px' }}>
+                    <div>• Items: <strong>{dbHealth.counts.items ?? 0}</strong></div>
+                    <div>• Jobs: <strong>{dbHealth.counts.jobs ?? 0}</strong></div>
+                    <div>• Clients: <strong>{dbHealth.counts.clients ?? 0}</strong></div>
+                    <div>• Sites: <strong>{dbHealth.counts.client_sites ?? 0}</strong></div>
+                    <div>• BOQs: <strong>{dbHealth.counts.boqs ?? 0}</strong></div>
+                    <div>• Tasks: <strong>{dbHealth.counts.tasks ?? 0}</strong></div>
+                    <div>• Purchases: <strong>{dbHealth.counts.purchases ?? 0}</strong></div>
+                    <div>• Stock: <strong>{dbHealth.counts.stock_ledger ?? 0}</strong></div>
+                  </div>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <button
+                  type="button"
+                  disabled={isSyncingDb}
+                  onClick={async () => {
+                    setIsSyncingDb(true);
+                    await ERPService.syncAllToPostgres();
+                    const updated = await ERPService.checkDbHealth();
+                    setDbHealth(updated);
+                    setIsSyncingDb(false);
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '7px 10px',
+                    borderRadius: 6,
+                    border: '1px solid #2563eb',
+                    backgroundColor: '#eff6ff',
+                    color: '#1d4ed8',
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
+                    cursor: isSyncingDb ? 'wait' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6,
+                  }}
+                >
+                  <RefreshCw size={13} />
+                  <span>Push State to PostgreSQL</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isSyncingDb}
+                  onClick={async () => {
+                    setIsSyncingDb(true);
+                    await ERPService.forceReloadFromPostgres();
+                    const updated = await ERPService.checkDbHealth();
+                    setDbHealth(updated);
+                    setIsSyncingDb(false);
+                    setShowDbDropdown(false);
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '7px 10px',
+                    borderRadius: 6,
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#ffffff',
+                    color: '#334155',
+                    fontSize: '0.76rem',
+                    fontWeight: 600,
+                    cursor: isSyncingDb ? 'wait' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6,
+                  }}
+                >
+                  <RefreshCw size={13} />
+                  <span>Reload from PostgreSQL</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Active User & Role Switcher */}
         <div style={{ position: 'relative' }}>
           <button

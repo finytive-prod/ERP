@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm --prefix erp run build",
+  "outputDirectory": "erp/dist",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
