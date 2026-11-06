@@ -1,0 +1,10 @@
+{
+  "name": "apex-erp-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm --prefix erp run build",
+    "install:all": "npm --prefix erp install"
+  }
+}
+
