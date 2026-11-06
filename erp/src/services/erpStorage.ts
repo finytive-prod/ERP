@@ -90,6 +90,43 @@ const KEYS = {
   NOTIFICATIONS: 'apex_erp_notifications',
 };
 
+export interface PostgresHealthInfo {
+  connected: boolean;
+  database?: string;
+  user?: string;
+  port?: number;
+  timestamp?: string;
+  counts?: Record<string, number>;
+  error?: string;
+}
+
+let currentDbHealth: PostgresHealthInfo = { connected: false };
+
+export const getDbHealth = (): PostgresHealthInfo => currentDbHealth;
+
+export const checkPostgresHealth = async (): Promise<PostgresHealthInfo> => {
+  try {
+    const res = await fetch('/api/health');
+    if (res.ok) {
+      const data = await res.json();
+      currentDbHealth = {
+        connected: data.postgres === 'connected',
+        database: data.database,
+        user: data.user,
+        port: data.port,
+        timestamp: data.timestamp,
+        counts: data.counts,
+      };
+    } else {
+      currentDbHealth = { connected: false, error: `HTTP ${res.status}` };
+    }
+  } catch (err: any) {
+    currentDbHealth = { connected: false, error: err.message || 'Offline' };
+  }
+  window.dispatchEvent(new CustomEvent('apex_db_status_change', { detail: currentDbHealth }));
+  return currentDbHealth;
+};
+
 // Safe local storage helpers
 function getStored<T>(key: string, defaultValue: T): T {
   try {
@@ -109,7 +146,18 @@ function setStored<T>(key: string, value: T): void {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(value),
-    }).catch((err) => console.warn('PostgreSQL sync error:', err));
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!currentDbHealth.connected) {
+          checkPostgresHealth();
+        }
+      })
+      .catch((err) => {
+        console.warn('PostgreSQL sync error:', err);
+        currentDbHealth = { connected: false, error: err.message };
+        window.dispatchEvent(new CustomEvent('apex_db_status_change', { detail: currentDbHealth }));
+      });
     // Dispatch custom event so reactive components can subscribe
     window.dispatchEvent(new Event('apex_storage_update'));
   } catch (e) {
@@ -120,6 +168,7 @@ function setStored<T>(key: string, value: T): void {
 // Initial Sync from PostgreSQL database on app load
 export const initPostgresSync = async () => {
   try {
+    await checkPostgresHealth();
     const res = await fetch('/api/data');
     if (res.ok) {
       const allData = await res.json();
@@ -127,9 +176,14 @@ export const initPostgresSync = async () => {
         localStorage.setItem(key, JSON.stringify(val));
       });
       window.dispatchEvent(new Event('apex_storage_update'));
+      return true;
     }
-  } catch (err) {
+    return false;
+  } catch (err: any) {
     console.warn('PostgreSQL connection check failed, using local copy:', err);
+    currentDbHealth = { connected: false, error: err.message };
+    window.dispatchEvent(new CustomEvent('apex_db_status_change', { detail: currentDbHealth }));
+    return false;
   }
 };
 
@@ -170,6 +224,50 @@ export const ERPService = {
   },
   resetToFactoryDemo: () => {
     ERPService.clearAllData();
+  },
+
+  // PostgreSQL Connection & Database Management
+  getDbHealth: (): PostgresHealthInfo => {
+    return getDbHealth();
+  },
+
+  checkDbHealth: async (): Promise<PostgresHealthInfo> => {
+    return await checkPostgresHealth();
+  },
+
+  syncAllToPostgres: async (): Promise<boolean> => {
+    try {
+      const payload: Record<string, any> = {};
+      Object.values(KEYS).forEach((k) => {
+        const val = localStorage.getItem(k);
+        if (val) {
+          try {
+            payload[k] = JSON.parse(val);
+          } catch {}
+        }
+      });
+      const res = await fetch('/api/sync-all', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        await checkPostgresHealth();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.error('syncAllToPostgres failed:', e);
+      return false;
+    }
+  },
+
+  forceReloadFromPostgres: async (): Promise<boolean> => {
+    const success = await initPostgresSync();
+    if (success) {
+      window.dispatchEvent(new Event('apex_storage_update'));
+    }
+    return !!success;
   },
 
   // Authentication & Session
